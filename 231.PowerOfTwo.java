@@ -1,5 +1,8 @@
 class Solution {
     public boolean isPowerOfTwo(int n) {
+        //Without using loops
+        return(n&(n-1))==0 && n>0;
+        //With Loops
         //Edge case : Neagtive numbers and zero cannot be true.
         if(n<1){
             return false;
