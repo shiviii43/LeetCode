@@ -6,16 +6,19 @@ class Solution {
             b.If the rotated array return to it's original state.
             
             Approach 1 :  O(n) time complexity
-            Since the array is sorted and then rotated, we can find the smallest element through either of two ways, they are : 
-            1.Every element has a greater number at their right, except the smallest -1 element.
-            2.Every element has a smaller number at their left, except the smallest element.
+            Simply traverse the array from first to last to find out the minimum element in the array.
 
-            But for this we need to traverse the complete array, so the time complexity is O(n).
+            *KEY PROPS of the MINIMUM ELEMENT*
+            Since the array is sorted and rotated, there are two properties of the minimum element that can be used to identify it: 
+            a.The right of each element will be greater than the element except the highest number in the array.
+            b.The left of each element will be smaller than the element except the smallest number in the array.
 
-            Approach 2 :  O(log n) time complexity 
-            Use Binary Search and the array will be divided into two part, there will always be a sorted part and the sorted part will never consist of the minimum element so skip it.
-
-
+            Optimized Approach : O(log n)
+            1.Divide the array into two parts (Binary Search), onr part atleast will be sorted from those two.
+            2.The Sorted part will never consist of the minimum element, only the part where the sequence was broken will contain it.
+            3.Ignore the sorted part and half the array accordingly.
+            4.Find the Minimum using both the Properties and handling the cases where mid is first or the last element.
+            5.Return the Minimum element
 
         */
 
@@ -30,14 +33,20 @@ class Solution {
 
        while(start<=end){
            int mid = (start + end )/2;
-
+            //When the prev is greater than the current(100>10)
            if(mid!=0 && nums[mid-1]>nums[mid]){
                return nums[mid];
-           }else if( mid!=nums.length-1 && nums[mid]>nums[mid+1] ){
+           }
+           //When the current is greater than the next(100>10)
+           else if( mid!=nums.length-1 && nums[mid]>nums[mid+1] ){
                return nums[mid+1];
-           }else if(nums[start]<=nums[mid]){ // left part is sorted
-             start = mid+1 ;
-           }else{ // right part is sorted ;
+           }
+           // left part is sorted
+           else if(nums[start]<=nums[mid]){
+                start = mid+1 ;
+           }
+           // right part is sorted ;
+           else{ 
                 end = mid-1 ;
            }
        }
