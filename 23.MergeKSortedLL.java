@@ -65,10 +65,32 @@ class Solution {
             1.Make a Priority Queue with objects(Comparator).
             2.Traverse the List from 0 till the last element.
             3.For each element which is a head of a LL, keep inserting nodes until a null is reached in each LL.
-            4.Now that all the elements are inserted in the Heap DS, make a Dummy Pointer and 
+            4.Now that all the elements are inserted in the Heap DS, make a Dummy Pointer and Start removing the elements from the Heap DS
+            5.Instead of inserting the value in the Heap we simply insert the Node itself so that we do not need to make nodes again.
 
         */
 
-        
+        if(lists.length==0) return null;
+        if(lists.length==1) return lists[0];
+        PriorityQueue<ListNode> pq = new PriorityQueue<>((a,b)->a.val-b.val);
+        //Traverse the List containing heads
+        for(int i=0;i<lists.length;i++){
+            //Insert each element of a LL
+            ListNode tempHead = lists[i];
+            while(tempHead!=null){
+                pq.add(tempHead);
+                tempHead=tempHead.next;
+            }
+        }
+        ListNode d = new ListNode(0);
+        ListNode ans=d;
+        //Empty the Priority Queue
+        while(pq.size()!=0){
+            d.next=pq.remove();
+            d=d.next;
+        }
+        //Handling that the last node does not have a link
+        d.next=null;
+        return ans.next;
     }
 }
